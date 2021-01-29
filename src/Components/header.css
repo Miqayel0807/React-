@@ -1,0 +1,10 @@
+.head{
+    text-align: center;
+    color: coral;
+}
+
+input{
+    margin: 5px;
+    width: 200px;
+    height: 30px;
+}
