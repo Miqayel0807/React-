@@ -1,7 +1,7 @@
 
 import './header.css'
-import  Name from "./name"
-import Surname from "./surname"
+import  Name from "./NameInput"
+import Surname from "./SurnameInput"
 
 
 

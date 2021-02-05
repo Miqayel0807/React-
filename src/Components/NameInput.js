@@ -1,7 +1,7 @@
 
 
 
-function Name () {
+function NameInput () {
     return (
         <input type="text" placeholder="Write your name"></input>
     )
