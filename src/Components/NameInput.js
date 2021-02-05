@@ -7,4 +7,4 @@ function NameInput () {
     )
 }
 
-export default Name
+export default NameInput

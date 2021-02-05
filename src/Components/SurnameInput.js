@@ -6,4 +6,4 @@ const SurnameInput =()=>{
     )
 }
 
-export default Surname
+export default SurnameInput
