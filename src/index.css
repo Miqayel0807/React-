@@ -1,0 +1,27 @@
+.usercard {
+    width: 200px;
+    padding: 30px;
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+    background-color: pink;
+}
+
+
+
+.user{
+    display: flex;
+    justify-content: space-between;
+    margin:20px auto;
+    width: 90%;
+    
+}
+
+img{
+    width: 200px;
+}
+
+.usercard.dif{
+    background-color: royalblue;
+
+}
