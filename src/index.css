@@ -25,3 +25,18 @@ img{
     background-color: royalblue;
 
 }
+.btn{
+    display: flex;
+    justify-content: start;
+    margin: auto;
+}
+.btn >button{
+    width: 150px;
+    margin: auto;
+}
+.text{
+text-align: center;
+color: blue;
+font-size: 78px;
+
+}

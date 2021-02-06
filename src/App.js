@@ -1,7 +1,9 @@
 import './App.css';
 // import Header from "./Components/Header";
 // import Picture from "./Components/Picture"
-import UserCard from './Components/UserCard'
+import UserCard from './Components/UserCard';
+import Counter from './Counter';
+
 
 function App() {
 const user1 ={
@@ -74,7 +76,11 @@ const user4 ={
                           email={user4.email}
                           profession={user4.profession}/>
             </div>
+            
+            <Counter />
         </div>
+    
+        
     )
 }
 
