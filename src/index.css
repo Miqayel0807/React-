@@ -40,3 +40,30 @@ color: blue;
 font-size: 78px;
 
 }
+
+.tasks{
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 30px;
+    color: firebrick;
+    margin: auto;
+    border: 5px solid;
+    border-radius: 50px;
+}
+
+.todo{
+    margin: auto;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.todo>input{
+    width: 300px;
+    height: 30px;
+
+}
+
+.todo>button{
+    width: 100px;
+    height: 36px;
+}
