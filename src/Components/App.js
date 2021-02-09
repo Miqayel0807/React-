@@ -1,10 +1,11 @@
 import './App.css';
 // import Header from "./Components/Header";
 // import Picture from "./Components/Picture"
-import UserCard from './Components/UserCard';
-import Counter from './Components/Counter';
-import ToDo from './Components/ToDo';
-import Tasks from './Components/Task';
+import UserCard from './UserCard';
+import Counter from './Counter';
+import ToDo from './ToDo';
+import Tasks from './Task';
+import AddNewTask from './AddNewTask';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     return (
         <div>
            <ToDo/> 
+           
         </div>
     
         
