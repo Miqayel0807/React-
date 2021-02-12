@@ -1,0 +1,11 @@
+.tasks{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: firebrick;
+    margin: auto;
+    border: 5px solid;
+    border-radius: 50px;
+    width: 200px;
+
+}

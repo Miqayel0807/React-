@@ -1,5 +1,6 @@
 import React from "react"
-import ToDo from "./ToDo";
+import styles from './addnewtask.module.css';
+import ToDo from '../ToDo/ToDo'
 
 class AddNewTask extends React.Component{
     state={
@@ -11,28 +12,26 @@ class AddNewTask extends React.Component{
             inputValue:val.target.value
         })
     }
-    submitBtn=(val, )=>{
-      
-      const {inputValue}=this.state
-      const {importInputValue}=this.props
-      importInputValue(inputValue)
-     
-        
-
-    }
+ 
 render(){
     const {inputValue}=this.state
-    
+    const {submitBtn}=this.props
+    const submit=()=>{
+        submitBtn(inputValue);
+        this.setState({
+            inputValue: ''
+        })
+    } 
     return(
-        <div>
-        <div className="todo">
+        <div >
+        <div className={styles.todo}>
             <h1>TO DO</h1>
             <input type="text" 
                    placeholder="Add text"
                    value={inputValue}
                    onChange={this.changeInputValue}>
                    </input>
-            <button onClick={this.submitBtn}>Add</button>
+            <button onClick={submit}>Add</button>
         </div>
         
 </div>

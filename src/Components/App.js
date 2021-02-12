@@ -1,11 +1,10 @@
 import './App.css';
 // import Header from "./Components/Header";
 // import Picture from "./Components/Picture"
-import UserCard from './UserCard';
-import Counter from './Counter';
-import ToDo from './ToDo';
-import Tasks from './Task';
-import AddNewTask from './AddNewTask';
+
+import ToDo from '../Components/ToDo/ToDo';
+import Tasks from './Task.js/Task';
+
 
 
 function App() {
