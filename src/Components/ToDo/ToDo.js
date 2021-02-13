@@ -2,6 +2,8 @@ import React from 'react'
 import styles from './todo.module.css'
 import AddNewTask from '../AddNewTask/AddNewTask'
 import Tasks from '../Task.js/Task'
+import {Container, Row, Col } from "react-bootstrap"
+import IdGenerator from './IdGeneratror'
 class ToDo extends React.Component{
     state={
     
@@ -26,22 +28,30 @@ render(){
     const {tasks}=this.state
     const el = tasks.map((task, index)=>{
       return(
-          <Tasks   key={index} task={task}/>
+          <div className={styles.el} key={IdGenerator()}>
+          <Col sm={3}>
+          <Tasks    task={task}/>
+          </Col>
+          </div>
       )
      
     })
     return (
         <div>
+            <Container>
+                <Row className='justify-content-center'>
             <AddNewTask submitBtn={this.submitBtn} />
-            <div className={styles.task}>
+               </Row>
+            <Row className='justify-content-center'>
             {el}
-            </div>
-        
+            </Row>
+           
+            </Container>
         </div>
     )
-    
+    }
 }
-} 
+
 
 
 export default ToDo
