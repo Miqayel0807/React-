@@ -1,6 +1,6 @@
 import React from "react"
+import {Button, Form} from "react-bootstrap";
 import styles from './addnewtask.module.css';
-import ToDo from '../ToDo/ToDo'
 
 class AddNewTask extends React.Component{
     state={
@@ -11,27 +11,39 @@ class AddNewTask extends React.Component{
         this.setState({
             inputValue:val.target.value
         })
-    }
- 
-render(){
-    const {inputValue}=this.state
-    const {submitBtn}=this.props
-    const submit=()=>{
+    };
+    submit=({key, type})=>{
+        if(type==='keypress' && key!== 'Enter') return;
+        const {submitBtn}=this.props
+        const {inputValue}=this.state
         submitBtn(inputValue);
         this.setState({
             inputValue: ''
         })
     } 
+ 
+render(){
+    const {inputValue}=this.state
+ 
     return(
         <div >
         <div className={styles.todo}>
             <h1>TO DO</h1>
-            <input type="text" 
+            <div className='d-flex justify-content-center'>
+            <Form.Control type="text" 
                    placeholder="Add text"
                    value={inputValue}
-                   onChange={this.changeInputValue}>
-                   </input>
-            <button onClick={submit}>Add</button>
+                   onKeyPress={this.submit}
+                   onChange={this.changeInputValue} 
+                   />
+                   
+            <Button 
+            onClick={this.submit}
+            disabled={!!!inputValue}>
+                Add
+            </Button>
+            </div>
+         
         </div>
         
 </div>

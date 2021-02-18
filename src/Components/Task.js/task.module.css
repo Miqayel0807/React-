@@ -6,6 +6,8 @@
     margin: auto;
     border: 5px solid;
     border-radius: 50px;
-    width: 200px;
+    padding: 25px;
+    /* margin-top: 20px; */
+    width:80%;
 
 }

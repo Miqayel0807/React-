@@ -3,7 +3,7 @@ import './App.css';
 // import Picture from "./Components/Picture"
 
 import ToDo from '../Components/ToDo/ToDo';
-import Tasks from './Task.js/Task';
+
 
 
 
