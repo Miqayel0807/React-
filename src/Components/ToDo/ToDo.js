@@ -4,7 +4,8 @@ import AddNewTask from '../AddNewTask/AddNewTask'
 import Tasks from '../Task.js/Task'
 import {Container, Row, Col, Button } from "react-bootstrap"
 import IdGenerator from './IdGeneratror'
-class ToDo extends React.Component{
+
+class ToDo extends React.PureComponent{
     state={
     
     tasks:[
@@ -45,17 +46,16 @@ class ToDo extends React.Component{
             this.setState({
                 tasks
             })
-            console.log('submitbtn')
+          
       }
 
       deleteInput=(id)=>{
-          console.log(id)
       let tasks=[...this.state.tasks]
       tasks=tasks.filter(item=>item._id!==id)
       this.setState({
           tasks
+          
       })
-      console.log('deleteInput')
       }
 
       selectedId=(_id)=>{
@@ -69,7 +69,6 @@ class ToDo extends React.Component{
         this.setState({
             removeTasks
         })
-        console.log('SelectedId')
       }
 
       deleteSelected=()=>{
@@ -80,7 +79,6 @@ class ToDo extends React.Component{
             tasks,
             removeTasks:new Set()
         })
-        
     }
 
     

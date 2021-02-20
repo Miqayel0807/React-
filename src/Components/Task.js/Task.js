@@ -1,4 +1,5 @@
 // import styles from './task.module.css'
+import React, {memo} from 'react'
 import {Form, Card, Button} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
@@ -38,4 +39,4 @@ function  Tasks({task, deleteInput, selectedId, disabled}){
     
 }
 
-export default Tasks
+export default memo(Tasks)
