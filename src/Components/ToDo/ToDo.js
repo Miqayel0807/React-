@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './todo.module.css'
 import AddNewTask from '../AddNewTask/AddNewTask'
 import Tasks from '../Task.js/Task'
-import {Container, Row, Col } from "react-bootstrap"
+import {Container, Row, Col, Button } from "react-bootstrap"
 import IdGenerator from './IdGeneratror'
 class ToDo extends React.Component{
     state={
@@ -28,10 +28,12 @@ class ToDo extends React.Component{
             a Latin professor at Hampden-Sydney College in Virginia.`
         }
     ],
+    removeTasks:new Set()
     }
 
 
     submitBtn=(value)=>{
+        
         if(!value) return;
             const tasks=[...this.state.tasks]
             tasks.push(
@@ -43,20 +45,47 @@ class ToDo extends React.Component{
             this.setState({
                 tasks
             })
+            console.log('submitbtn')
       }
 
       deleteInput=(id)=>{
+          console.log(id)
       let tasks=[...this.state.tasks]
       tasks=tasks.filter(item=>item._id!==id)
       this.setState({
           tasks
       })
+      console.log('deleteInput')
       }
 
+      selectedId=(_id)=>{
+        let removeTasks=new Set(this.state.removeTasks)
+        if(removeTasks.has(_id)){
+           removeTasks.delete(_id)
+        }else{
+            removeTasks.add(_id)
+        }
+        
+        this.setState({
+            removeTasks
+        })
+        console.log('SelectedId')
+      }
+
+      deleteSelected=()=>{
+        let tasks=[...this.state.tasks]
+        let removeTasks=new Set(this.state.removeTasks)
+        tasks=tasks.filter(item=>!removeTasks.has(item._id))
+        this.setState({
+            tasks,
+            removeTasks:new Set()
+        })
+        
+    }
 
     
 render(){
-    const {tasks}=this.state
+    const {tasks, removeTasks}=this.state
     const el = tasks.map(task=>{
       return(
  
@@ -66,7 +95,11 @@ render(){
           xs={12}
           md={4}
           xl={4}>
-          <Tasks  deleteInput={this.deleteInput}  task={task}/>
+          <Tasks  
+          deleteInput={this.deleteInput} 
+          selectedId={this.selectedId}  
+          task={task}
+         disabled={!!removeTasks.size}/>
           </Col>
       )
      
@@ -76,14 +109,26 @@ render(){
             <Container>
                 <Row className='justify-content-center'>
                     <Col>
-            <AddNewTask submitBtn={this.submitBtn} />
+            <AddNewTask 
+                 disabled={!!removeTasks.size}
+                 submitBtn={this.submitBtn} 
+                />
                     </Col>
                </Row>
             <Row className='justify-content-center mt-4'>
                 {!el.length && <div>Tasks is empty</div>}
                      {el}
             </Row>
-           
+            <Row>
+                <Col>
+               <Button 
+               className='mt-4'
+               variant='danger'
+               onClick={this.deleteSelected}>
+                   Remove Tasks
+               </Button>
+                </Col>
+            </Row>
             </Container>
         </div>
     )

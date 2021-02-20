@@ -24,22 +24,27 @@ class AddNewTask extends React.Component{
  
 render(){
     const {inputValue}=this.state
+    const {disabled}=this.props
+  
  
     return(
         <div >
         <div className={styles.todo}>
             <h1>TO DO</h1>
             <div className='d-flex justify-content-center'>
-            <Form.Control type="text" 
+            <Form.Control 
+                   type="text" 
                    placeholder="Add text"
                    value={inputValue}
                    onKeyPress={this.submit}
                    onChange={this.changeInputValue} 
+                   
+                   
                    />
                    
             <Button 
             onClick={this.submit}
-            disabled={!!!inputValue}>
+            disabled={disabled}>
                 Add
             </Button>
             </div>
