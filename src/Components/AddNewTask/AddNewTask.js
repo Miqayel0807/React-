@@ -38,6 +38,7 @@ render(){
                    value={inputValue}
                    onKeyPress={this.submit}
                    onChange={this.changeInputValue} 
+                   disabled={disabled}
                    
                    
                    />

@@ -1,7 +1,4 @@
 import './App.css';
-// import Header from "./Components/Header";
-// import Picture from "./Components/Picture"
-
 import ToDo from '../Components/ToDo/ToDo';
 
 

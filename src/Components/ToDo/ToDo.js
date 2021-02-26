@@ -3,7 +3,7 @@ import styles from './todo.module.css'
 import AddNewTask from '../AddNewTask/AddNewTask'
 import Tasks from '../Task.js/Task'
 import {Container, Row, Col, Button } from "react-bootstrap"
-import IdGenerator from './IdGeneratror'
+import IdGenerator from '../../Helpers/IdGeneratror'
 
 class ToDo extends React.PureComponent{
     state={
@@ -29,7 +29,8 @@ class ToDo extends React.PureComponent{
             a Latin professor at Hampden-Sydney College in Virginia.`
         }
     ],
-    removeTasks:new Set()
+    removeTasks:new Set(),
+    isChecked:true
     }
 
 
@@ -81,6 +82,22 @@ class ToDo extends React.PureComponent{
         })
     }
 
+    selectAll=()=>{
+        const {tasks, isChecked}=this.state
+        const removeTasks= new Set()
+        if(isChecked){
+             tasks.forEach(task=>{
+            removeTasks.add(task._id)
+        })
+        }
+        this.setState({
+            removeTasks,
+            isChecked: !isChecked
+        })
+    }
+
+ 
+
     
 render(){
     const {tasks, removeTasks}=this.state
@@ -97,7 +114,9 @@ render(){
           deleteInput={this.deleteInput} 
           selectedId={this.selectedId}  
           task={task}
-         disabled={!!removeTasks.size}/>
+         disabled={!!removeTasks.size}
+         checked={removeTasks.has(task._id)}
+        />
           </Col>
       )
      
@@ -125,6 +144,13 @@ render(){
                onClick={this.deleteSelected}>
                    Remove Tasks
                </Button>
+               <Button
+               variant='primary'
+               className='mt-4 ml-3'
+               onClick={this.selectAll}
+               disabled={!!!tasks.length}>
+                   {this.state.isChecked? 'Select All' :'Remove All'}
+                </Button>
                 </Col>
             </Row>
             </Container>

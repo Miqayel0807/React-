@@ -11,3 +11,13 @@
     width:80%;
 
 }
+
+
+.checked{
+    opacity: .5;
+}
+
+.card{
+    width: 18rem;
+    background-color: purple;
+}
