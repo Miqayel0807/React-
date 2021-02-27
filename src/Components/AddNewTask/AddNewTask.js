@@ -1,11 +1,18 @@
 import React from "react"
 import {Button, Form} from "react-bootstrap";
 import styles from './addnewtask.module.css';
+import PropTypes from 'prop-types';
 
 class AddNewTask extends React.Component{
-    state={
-        inputValue:""
-    } ;
+    constructor(props){
+        super(props);
+        this.input=React.createRef()
+        this.state={
+            inputValue:""
+        } ;
+
+    }
+   
 
     changeInputValue=(val)=>{
         this.setState({
@@ -21,6 +28,9 @@ class AddNewTask extends React.Component{
             inputValue: ''
         })
     } 
+    componentDidMount(){
+        this.input.current.focus();
+    }
  
 render(){
     const {inputValue}=this.state
@@ -39,6 +49,7 @@ render(){
                    onKeyPress={this.submit}
                    onChange={this.changeInputValue} 
                    disabled={disabled}
+                   ref={this.input}
                    
                    
                    />
@@ -56,6 +67,13 @@ render(){
     )
 }
     
+};
+
+AddNewTask.propTypes= {
+    submitBtn:PropTypes.func.isRequired,
+    disabled:PropTypes.bool.isRequired
+
 }
+
 
 export default AddNewTask

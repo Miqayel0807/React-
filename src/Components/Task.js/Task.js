@@ -3,8 +3,13 @@ import React, {memo} from 'react'
 import {Form, Card, Button} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
+import PropTypes from 'prop-types'
 
-function  Tasks({task, deleteInput, selectedId, disabled, checked}){
+function  Tasks({task, 
+                 deleteInput, 
+                 selectedId, 
+                 disabled, 
+                 checked}){
   
     return (
         <Card className={`${styles.card} ${checked &&styles.checked}`}>
@@ -38,6 +43,15 @@ function  Tasks({task, deleteInput, selectedId, disabled, checked}){
     
     )
     
+}
+Tasks.propTypes= {
+  deleteInput:PropTypes.func.isRequired,
+  selectedId:PropTypes.func.isRequired,
+  tasks:PropTypes.shape({
+    _id:PropTypes.string,
+    text:PropTypes.string
+
+  })
 }
 
 export default memo(Tasks)
