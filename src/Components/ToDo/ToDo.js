@@ -4,6 +4,8 @@ import AddNewTask from '../AddNewTask/AddNewTask'
 import Tasks from '../Task.js/Task'
 import {Container, Row, Col, Button } from "react-bootstrap"
 import IdGenerator from '../../Helpers/IdGeneratror'
+import Confirm from '../ConfirmModal/ConfirmModal'
+import EditModal from '../ConfirmModal/EditModal/EditModal'
 
 class ToDo extends React.PureComponent{
     state={
@@ -11,37 +13,43 @@ class ToDo extends React.PureComponent{
     tasks:[
         {
             _id: IdGenerator(),
-            text:`Lorem Ipsum is simply dummy text of the printing and typesetting industry's. 
+            title:'Lorem1',
+            description:`Lorem Ipsum is simply dummy text of the printing and typesetting industry's. 
             Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, 
             when an unknown printer took a galley of type and scrambled it to make a type 
             specimen book.`
         },
         {
             _id: IdGenerator(),
-            text:`Lorem It is a long established fact that a reader will be distracted by the 
+            title:'Lorem2',
+            description:`Lorem It is a long established fact that a reader will be distracted by the 
             readable content of a page when looking at its layout. The point of using Lorem Ipsum is that 
             it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here'`
         },
         {
             _id: IdGenerator(),
-            text:`Lorem Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a 
+            title:'Lorem3',
+            description:`Lorem Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a 
             piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, 
             a Latin professor at Hampden-Sydney College in Virginia.`
         }
     ],
     removeTasks:new Set(),
-    isChecked:true
+    isChecked:true,
+    isConfirm:false,
+    editTask:null,
+    editConfirm:false
     }
 
 
-    submitBtn=(value)=>{
-        
-        if(!value) return;
+    submitBtn=(value, val)=>{
+        if(!value || !val) return
             const tasks=[...this.state.tasks]
             tasks.push(
                 {
                     _id:IdGenerator(),
-                    text: value
+                    title:value,
+                    description:val
                 }
             )
             this.setState({
@@ -58,6 +66,8 @@ class ToDo extends React.PureComponent{
           
       })
       }
+
+     
 
       selectedId=(_id)=>{
         let removeTasks=new Set(this.state.removeTasks)
@@ -78,7 +88,8 @@ class ToDo extends React.PureComponent{
         tasks=tasks.filter(item=>!removeTasks.has(item._id))
         this.setState({
             tasks,
-            removeTasks:new Set()
+            removeTasks:new Set(),
+            isConfirm:false
         })
     }
 
@@ -96,11 +107,43 @@ class ToDo extends React.PureComponent{
         })
     }
 
- 
+    editButton=(task)=>{
+        this.setState({
+            editTask:task,
+            editConfirm:true
+        })
+    }
+
+ onHide=()=>{
+     this.setState({
+         editConfirm:false,
+         editTask:null
+     })
+ }
+
+ newEditedTask = (edit)=>{
+     const tasks=[...this.state.tasks]
+     const index=tasks.findIndex(task=>task._id===edit._id)
+     tasks[index]=edit
+     this.setState({
+         tasks
+     })
+
+     
+ }
+
+
 
     
 render(){
-    const {tasks, removeTasks}=this.state
+    const {tasks, removeTasks, isConfirm, editTask}=this.state
+    const handleToggleModal=()=>{
+       this.setState({
+        isConfirm:!isConfirm
+       }) 
+    }
+
+
     const el = tasks.map(task=>{
       return(
  
@@ -112,10 +155,13 @@ render(){
           xl={4}>
           <Tasks  
           deleteInput={this.deleteInput} 
+          editButton={this.editButton}
           selectedId={this.selectedId}  
           task={task}
          disabled={!!removeTasks.size}
-         checked={removeTasks.has(task._id)}
+         checked={removeTasks.has(task._id)
+      
+         }
         />
           </Col>
       )
@@ -141,7 +187,9 @@ render(){
                <Button 
                className='mt-4'
                variant='danger'
-               onClick={this.deleteSelected}>
+               onClick={handleToggleModal}
+               disabled={!!!removeTasks.size}
+               >
                    Remove Tasks
                </Button>
                <Button
@@ -153,8 +201,17 @@ render(){
                 </Button>
                 </Col>
             </Row>
+                  {isConfirm? 
+                  <Confirm 
+                  hide={handleToggleModal} 
+                  deleteSelected={this.deleteSelected}/>: false} 
+                 {editTask && <EditModal 
+                 editTask={editTask} 
+                 onHide={this.onHide} 
+                 submitBtn={this.newEditedTask}/>}
             </Container>
         </div>
+            
     )
     }
 }

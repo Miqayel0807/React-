@@ -9,7 +9,8 @@ function  Tasks({task,
                  deleteInput, 
                  selectedId, 
                  disabled, 
-                 checked}){
+                 checked,
+                 editButton}){
   
     return (
         <Card className={`${styles.card} ${checked &&styles.checked}`}>
@@ -20,8 +21,8 @@ function  Tasks({task,
                     onChange={()=>selectedId(task._id)}
                     checked={checked}
                    />
-          <Card.Title>{task.text.slice(0,6)}</Card.Title>
-          <Card.Text className='text-justify'>{task.text} </Card.Text>
+          <Card.Title>{task.title}</Card.Title>
+          <Card.Text className='text-justify'>{task.description} </Card.Text>
          
           <Button 
            disabled={disabled}
@@ -36,7 +37,9 @@ function  Tasks({task,
           variant="warning"
           disabled={disabled}
          >
-             <FontAwesomeIcon icon={faEdit} />
+             <FontAwesomeIcon 
+             icon={faEdit}
+             onClick={()=>editButton(task)} />
         </Button>
         </Card.Body>
       </Card>
