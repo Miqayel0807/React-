@@ -7,7 +7,6 @@
     border: 5px solid;
     border-radius: 50px;
     padding: 25px;
-    /* margin-top: 20px; */
     width:80%;
 
 }
@@ -19,5 +18,11 @@
 
 .card{
     width: 18rem;
-    background-color: purple;
+    background-color: pink;
 }
+h1{
+    font-size: 35px;
+    color: rgb(17, 131, 116);
+    margin: 30px;
+}
+

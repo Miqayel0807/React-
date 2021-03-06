@@ -13,7 +13,7 @@ function  Tasks({task,
                  editButton}){
   
     return (
-        <Card className={`${styles.card} ${checked &&styles.checked}`}>
+        <Card className={`${styles.card} ${checked && styles.checked}`}>
         <Card.Body>
         <Form.Check type="checkbox" 
                     label=""  

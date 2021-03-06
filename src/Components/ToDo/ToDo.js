@@ -1,11 +1,10 @@
 import React from 'react'
 import styles from './todo.module.css'
-import AddNewTask from '../AddNewTask/AddNewTask'
 import Tasks from '../Task.js/Task'
 import {Container, Row, Col, Button } from "react-bootstrap"
 import IdGenerator from '../../Helpers/IdGeneratror'
 import Confirm from '../ConfirmModal/ConfirmModal'
-import EditModal from '../ConfirmModal/EditModal/EditModal'
+import EditModal from '../EditModal/EditModal'
 
 class ToDo extends React.PureComponent{
     state={
@@ -38,37 +37,32 @@ class ToDo extends React.PureComponent{
     isChecked:true,
     isConfirm:false,
     editTask:null,
-    editConfirm:false
+    addModal:false
     }
 
-
-    submitBtn=(value, val)=>{
+        submitBtn=(value, val)=>{
         if(!value || !val) return
-            const tasks=[...this.state.tasks]
-            tasks.push(
+        const tasks=[...this.state.tasks]
+        tasks.push(
                 {
                     _id:IdGenerator(),
                     title:value,
                     description:val
                 }
             )
-            this.setState({
-                tasks
+        this.setState({
+            tasks
             })
           
-      }
+        }
 
       deleteInput=(id)=>{
       let tasks=[...this.state.tasks]
       tasks=tasks.filter(item=>item._id!==id)
       this.setState({
-          tasks
-          
+          tasks     
       })
       }
-
-     
-
       selectedId=(_id)=>{
         let removeTasks=new Set(this.state.removeTasks)
         if(removeTasks.has(_id)){
@@ -106,22 +100,28 @@ class ToDo extends React.PureComponent{
             isChecked: !isChecked
         })
     }
+    openAddTaskModal=(task)=>{
+        const {addModal}=this.state
+        this.setState({
+            addModal:!addModal,
+            editTask:task,
+        }) 
+    }
 
     editButton=(task)=>{
         this.setState({
             editTask:task,
-            editConfirm:true
         })
     }
 
- onHide=()=>{
-     this.setState({
-         editConfirm:false,
-         editTask:null
+    onHide=()=>{
+         this.setState({
+         editTask:null,
+         addModal:false
      })
  }
 
- newEditedTask = (edit)=>{
+    newEditedTask = (edit)=>{
      const tasks=[...this.state.tasks]
      const index=tasks.findIndex(task=>task._id===edit._id)
      tasks[index]=edit
@@ -133,10 +133,13 @@ class ToDo extends React.PureComponent{
  }
 
 
-
     
 render(){
-    const {tasks, removeTasks, isConfirm, editTask}=this.state
+    const {tasks, 
+           removeTasks, 
+           isConfirm, 
+           addModal, 
+           editTask}=this.state
     const handleToggleModal=()=>{
        this.setState({
         isConfirm:!isConfirm
@@ -152,16 +155,16 @@ render(){
           key={task._id} 
           xs={12}
           md={4}
-          xl={4}>
+          xl={4}
+          >
+         
           <Tasks  
           deleteInput={this.deleteInput} 
           editButton={this.editButton}
           selectedId={this.selectedId}  
           task={task}
-         disabled={!!removeTasks.size}
-         checked={removeTasks.has(task._id)
-      
-         }
+          disabled={!!removeTasks.size}
+          checked={removeTasks.has(task._id)}
         />
           </Col>
       )
@@ -172,10 +175,12 @@ render(){
             <Container>
                 <Row className='justify-content-center'>
                     <Col>
-            <AddNewTask 
-                 disabled={!!removeTasks.size}
-                 submitBtn={this.submitBtn} 
-                />
+                         <h1>ToDo</h1>
+                <Button 
+                onClick={this.openAddTaskModal}
+                disabled={!!removeTasks.size}>
+                    AddTask
+                </Button>
                     </Col>
                </Row>
             <Row className='justify-content-center mt-4'>
@@ -184,19 +189,19 @@ render(){
             </Row>
             <Row>
                 <Col>
-               <Button 
-               className='mt-4'
-               variant='danger'
-               onClick={handleToggleModal}
-               disabled={!!!removeTasks.size}
-               >
+                     <Button 
+                     className='mt-4'
+                     variant='danger'
+                     onClick={handleToggleModal}
+                     disabled={!!!removeTasks.size}
+                     >
                    Remove Tasks
                </Button>
-               <Button
-               variant='primary'
-               className='mt-4 ml-3'
-               onClick={this.selectAll}
-               disabled={!!!tasks.length}>
+                    <Button
+                    variant='primary'
+                    className='mt-4 ml-3'
+                    onClick={this.selectAll}
+                    disabled={!!!tasks.length}>
                    {this.state.isChecked? 'Select All' :'Remove All'}
                 </Button>
                 </Col>
@@ -205,10 +210,14 @@ render(){
                   <Confirm 
                   hide={handleToggleModal} 
                   deleteSelected={this.deleteSelected}/>: false} 
+                 
                  {editTask && <EditModal 
                  editTask={editTask} 
                  onHide={this.onHide} 
-                 submitBtn={this.newEditedTask}/>}
+                 submitBtn={this.newEditedTask}
+                 addBtn={this.submitBtn}
+                 addModal={addModal}
+                 />}
             </Container>
         </div>
             
