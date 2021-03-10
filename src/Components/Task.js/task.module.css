@@ -16,7 +16,7 @@
     opacity: .5;
 }
 
-.card{
+.card.body{
     width: 18rem;
     background-color: pink;
 }

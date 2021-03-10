@@ -10,28 +10,28 @@ class ToDo extends React.PureComponent{
     state={
     
     tasks:[
-        {
-            _id: IdGenerator(),
-            title:'Lorem1',
-            description:`Lorem Ipsum is simply dummy text of the printing and typesetting industry's. 
-            Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type 
-            specimen book.`
-        },
-        {
-            _id: IdGenerator(),
-            title:'Lorem2',
-            description:`Lorem It is a long established fact that a reader will be distracted by the 
-            readable content of a page when looking at its layout. The point of using Lorem Ipsum is that 
-            it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here'`
-        },
-        {
-            _id: IdGenerator(),
-            title:'Lorem3',
-            description:`Lorem Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a 
-            piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, 
-            a Latin professor at Hampden-Sydney College in Virginia.`
-        }
+        // {
+        //     _id: IdGenerator(),
+        //     title:'Lorem1',
+        //     description:`Lorem Ipsum is simply dummy text of the printing and typesetting industry's. 
+        //     Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, 
+        //     when an unknown printer took a galley of type and scrambled it to make a type 
+        //     specimen book.`
+        // },
+        // {
+        //     _id: IdGenerator(),
+        //     title:'Lorem2',
+        //     description:`Lorem It is a long established fact that a reader will be distracted by the 
+        //     readable content of a page when looking at its layout. The point of using Lorem Ipsum is that 
+        //     it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here'`
+        // },
+        // {
+        //     _id: IdGenerator(),
+        //     title:'Lorem3',
+        //     description:`Lorem Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a 
+        //     piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, 
+        //     a Latin professor at Hampden-Sydney College in Virginia.`
+        // }
     ],
     removeTasks:new Set(),
     isChecked:true,
@@ -40,19 +40,45 @@ class ToDo extends React.PureComponent{
     addModal:false
     }
 
-        submitBtn=(value, val)=>{
-        if(!value || !val) return
+        submitBtn=(formData)=>{
+        if(!formData.title || !formData.description) return
+        formData.date=formData.date.toISOString().slice(0,10)
+        console.log(this.state.tasks);
         const tasks=[...this.state.tasks]
-        tasks.push(
-                {
-                    _id:IdGenerator(),
-                    title:value,
-                    description:val
+            fetch('http://localhost:3001/task',{
+                method:'POST',
+                body:JSON.stringify(formData),
+                headers:{
+                    'Content-Type':'application/json'
                 }
-            )
-        this.setState({
-            tasks
             })
+            .then(res=>res.json())
+            .then(data=>{
+                
+                if(data.error){
+                    throw data.error
+                }
+                tasks.push(data)
+                this.setState({
+                    tasks
+                })
+                })
+
+                .catch(error=>{
+                    console.log('error', error);
+                })
+
+        // tasks.push(
+        //         {
+        //             _id:IdGenerator(),
+        //             title:formData.title,
+        //             description:formData.description,
+        //             date:formData.date
+        //         }
+        //     )
+        // this.setState({
+        //     tasks
+        //     })
           
         }
 

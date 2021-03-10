@@ -1,12 +1,16 @@
 import React from 'react'
 import {Modal,Button, Form} from 'react-bootstrap'
+import DatePicker from "react-datepicker"
 
 class EditModal extends React.Component{
   constructor(props){
     super(props)
     this.input=React.createRef()
       this.state={
+        title:'',
+        description:'',
         ...props.editTask, 
+        date:new Date(props.editTask)
             
       }    
   }
@@ -26,26 +30,34 @@ class EditModal extends React.Component{
 }
 
 submit=({key, type})=>{
-  const {addBtn, onHide}=this.props
-  const {title, description}=this.state
+  const {addBtn,  onHide}=this.props
+  const {title, date, description}=this.state
   if((type==='keypress' && key!== 'Enter') || 
-  ( !type || !description)) return;
+  ( !title || !description)) return;
 
-  addBtn(title,  description);
-  this.setState({
-     title: '',
-     description:'',
-  })
+  const formData={
+    title, 
+    description, 
+    date
+  }
+  addBtn(formData);
   onHide()
 } 
 componentDidMount(){
   this.input.current.focus();
 }
 
+setDate=(date)=>{
+  this.setState({
+    date
+  })
+}
+
  
   render(){
+    console.log(this.state);
     const {onHide, addModal}=this.props
-    const {title,description}=this.state
+    const {title,description, date}=this.state
     return(
       <Modal
       show={true}
@@ -79,6 +91,7 @@ componentDidMount(){
             onChange={this.changeInputValue}
             onKeyPress={this.handle}
             />
+            <DatePicker selected={date} onChange={date => this.setDate(date)} />
 
       </Modal.Body>
       <Modal.Footer>

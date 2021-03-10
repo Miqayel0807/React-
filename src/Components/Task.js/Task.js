@@ -1,4 +1,4 @@
-import styles from './task.module.css'
+import styles from'./task.module.css'
 import React, {memo} from 'react'
 import {Form, Card, Button} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
