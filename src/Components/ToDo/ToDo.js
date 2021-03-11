@@ -2,9 +2,10 @@ import React from 'react'
 import styles from './todo.module.css'
 import Tasks from '../Task.js/Task'
 import {Container, Row, Col, Button } from "react-bootstrap"
-import IdGenerator from '../../Helpers/IdGeneratror'
+// import IdGenerator from '../../Helpers/IdGeneratror'
 import Confirm from '../ConfirmModal/ConfirmModal'
 import EditModal from '../EditModal/EditModal'
+import DateFormatter from '../../Helpers/DataFormatter'
 
 class ToDo extends React.PureComponent{
     state={
@@ -40,10 +41,27 @@ class ToDo extends React.PureComponent{
     addModal:false
     }
 
+    componentDidMount(){
+        fetch('http://localhost:3001/task')
+        .then(res=>res.json())
+            .then(data=>{ 
+                if(data.error){
+                    throw data.error
+                }
+                this.setState({
+                    tasks:data
+                })
+                
+                })
+
+                .catch(error=>{
+                    console.error('error', error);
+                })
+    }
+
         submitBtn=(formData)=>{
         if(!formData.title || !formData.description) return
-        formData.date=formData.date.toISOString().slice(0,10)
-        console.log(this.state.tasks);
+        formData.date=DateFormatter(formData.date)
         const tasks=[...this.state.tasks]
             fetch('http://localhost:3001/task',{
                 method:'POST',
@@ -65,30 +83,33 @@ class ToDo extends React.PureComponent{
                 })
 
                 .catch(error=>{
-                    console.log('error', error);
+                    console.error('error', error);
                 })
-
-        // tasks.push(
-        //         {
-        //             _id:IdGenerator(),
-        //             title:formData.title,
-        //             description:formData.description,
-        //             date:formData.date
-        //         }
-        //     )
-        // this.setState({
-        //     tasks
-        //     })
-          
         }
 
       deleteInput=(id)=>{
-      let tasks=[...this.state.tasks]
-      tasks=tasks.filter(item=>item._id!==id)
+        let tasks=[...this.state.tasks]
+        fetch('http://localhost:3001/task/'+id,{
+            method:'DELETE'
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if(data.error){
+                throw data.error
+            }
+            tasks=tasks.filter(item=>item._id!==id)
       this.setState({
           tasks     
       })
+
+        })
+
+    .catch(error=>{
+        console.error(error)
+    })
+    
       }
+      
       selectedId=(_id)=>{
         let removeTasks=new Set(this.state.removeTasks)
         if(removeTasks.has(_id)){
@@ -103,14 +124,35 @@ class ToDo extends React.PureComponent{
       }
 
       deleteSelected=()=>{
+        fetch('http://localhost:3001/task', {
+            method:'PATCH',
+            body:JSON.stringify({tasks:Array.from(this.state.removeTasks)} ),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if(data.error){
+                throw data.error
+            }
         let tasks=[...this.state.tasks]
         let removeTasks=new Set(this.state.removeTasks)
         tasks=tasks.filter(item=>!removeTasks.has(item._id))
         this.setState({
             tasks,
             removeTasks:new Set(),
-            isConfirm:false
+            isConfirm:false,
+            isChecked:!this.state.isChecked
         })
+
+
+        })
+        .catch(error=>{
+            console.error('You can not delete any tasks', error)
+        })
+
+
     }
 
     selectAll=()=>{
@@ -149,23 +191,44 @@ class ToDo extends React.PureComponent{
 
     newEditedTask = (edit)=>{
      const tasks=[...this.state.tasks]
-     const index=tasks.findIndex(task=>task._id===edit._id)
+     edit.date=DateFormatter(edit.date)
+    fetch('http://localhost:3001/task/'+edit._id,{
+        method:'PUT',
+        body:JSON.stringify(edit),
+        headers:{
+            'Content-Type':'application/json'
+        }  
+
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        if(data.error){
+            throw data.error
+        }
+    const index=tasks.findIndex(task=>task._id===edit._id)
      tasks[index]=edit
+
      this.setState({
          tasks
      })
-
-     
+    })
+    .catch(error=>{
+        console.error('error', error)
+    })
+      
  }
 
 
     
 render(){
-    const {tasks, 
+    const {
+            tasks, 
            removeTasks, 
            isConfirm, 
            addModal, 
-           editTask}=this.state
+           editTask
+        }=this.state
+
     const handleToggleModal=()=>{
        this.setState({
         isConfirm:!isConfirm

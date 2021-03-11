@@ -10,7 +10,7 @@ class EditModal extends React.Component{
         title:'',
         description:'',
         ...props.editTask, 
-        date:new Date(props.editTask)
+        date:  new Date() 
             
       }    
   }
@@ -22,9 +22,8 @@ class EditModal extends React.Component{
   }
 
   handle=({type, key})=>{
-  const {onHide}= this.props
+  const {onHide, submitBtn}= this.props
   if(type==='keypress' && key!== 'Enter') return;
-        const {submitBtn}=this.props
         submitBtn(this.state);
         onHide()
 }
@@ -34,7 +33,6 @@ submit=({key, type})=>{
   const {title, date, description}=this.state
   if((type==='keypress' && key!== 'Enter') || 
   ( !title || !description)) return;
-
   const formData={
     title, 
     description, 
@@ -55,8 +53,7 @@ setDate=(date)=>{
 
  
   render(){
-    console.log(this.state);
-    const {onHide, addModal}=this.props
+   const {onHide, addModal}=this.props
     const {title,description, date}=this.state
     return(
       <Modal
