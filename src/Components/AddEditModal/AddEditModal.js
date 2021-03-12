@@ -2,15 +2,16 @@ import React from 'react'
 import {Modal,Button, Form} from 'react-bootstrap'
 import DatePicker from "react-datepicker"
 
-class EditModal extends React.Component{
+class AddEditModal extends React.Component{
   constructor(props){
     super(props)
     this.input=React.createRef()
       this.state={
         title:'',
         description:'',
+        date:  new Date() ,
         ...props.editTask, 
-        date:  new Date() 
+        
             
       }    
   }
@@ -21,24 +22,15 @@ class EditModal extends React.Component{
     })
   }
 
-  handle=({type, key})=>{
-  const {onHide, submitBtn}= this.props
-  if(type==='keypress' && key!== 'Enter') return;
-        submitBtn(this.state);
-        onHide()
-}
+
 
 submit=({key, type})=>{
-  const {addBtn,  onHide}=this.props
-  const {title, date, description}=this.state
+  const {submitBtn,  onHide}=this.props
+  const {title,  description}=this.state
   if((type==='keypress' && key!== 'Enter') || 
   ( !title || !description)) return;
-  const formData={
-    title, 
-    description, 
-    date
-  }
-  addBtn(formData);
+  const formData={...this.state}
+  submitBtn(formData);
   onHide()
 } 
 componentDidMount(){
@@ -74,9 +66,10 @@ setDate=(date)=>{
                    type="text" 
                    placeholder="Add title"
                    value={title}
-                   onKeyPress={this.handle}
                    onChange={this.changeInputValue} 
                    ref={this.input}
+                   onKeyPress={this.submit}
+
                    />
 
        <Form.Control 
@@ -86,15 +79,15 @@ setDate=(date)=>{
             placeholder='Add description'
             as="textarea" 
             onChange={this.changeInputValue}
-            onKeyPress={this.handle}
+            onKeyPress={this.submit}
+
             />
-            <DatePicker selected={date} onChange={date => this.setDate(date)} />
+            <DatePicker selected={new Date(date)} onChange={date => this.setDate(date)} />
 
       </Modal.Body>
       <Modal.Footer>
       <Button variant='primary' 
-      onClick={addModal?this.submit: 
-      this.handle}>
+      onClick={this.submit}>
         {addModal? 'Add': 'Save' }
       </Button>
         <Button 
@@ -110,5 +103,5 @@ setDate=(date)=>{
 
   }
 
-  export default EditModal
+  export default AddEditModal
   

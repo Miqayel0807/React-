@@ -1,0 +1,16 @@
+h1{
+    text-align: center;
+}
+
+.inp{
+    text-align: center;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.input{
+    width: 500px;
+    text-align: center;
+  
+}

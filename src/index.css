@@ -1,1 +1,9 @@
 .card.active{background-color: pink;}
+
+.nav-item{
+    padding: 10px
+}
+
+a:hover{
+    text-decoration: underline;
+}
