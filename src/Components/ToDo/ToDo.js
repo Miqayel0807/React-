@@ -10,30 +10,7 @@ import DateFormatter from '../../Helpers/DataFormatter'
 class ToDo extends React.PureComponent{
     state={
     
-    tasks:[
-        // {
-        //     _id: IdGenerator(),
-        //     title:'Lorem1',
-        //     description:`Lorem Ipsum is simply dummy text of the printing and typesetting industry's. 
-        //     Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, 
-        //     when an unknown printer took a galley of type and scrambled it to make a type 
-        //     specimen book.`
-        // },
-        // {
-        //     _id: IdGenerator(),
-        //     title:'Lorem2',
-        //     description:`Lorem It is a long established fact that a reader will be distracted by the 
-        //     readable content of a page when looking at its layout. The point of using Lorem Ipsum is that 
-        //     it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here'`
-        // },
-        // {
-        //     _id: IdGenerator(),
-        //     title:'Lorem3',
-        //     description:`Lorem Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a 
-        //     piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, 
-        //     a Latin professor at Hampden-Sydney College in Virginia.`
-        // }
-    ],
+    tasks:[],
     removeTasks:new Set(),
     isChecked:true,
     isConfirm:false,
@@ -143,7 +120,7 @@ class ToDo extends React.PureComponent{
             tasks,
             removeTasks:new Set(),
             isConfirm:false,
-            isChecked:!this.state.isChecked
+            isChecked:true
         })
 
 
@@ -165,7 +142,7 @@ class ToDo extends React.PureComponent{
         }
         this.setState({
             removeTasks,
-            isChecked: !isChecked
+            isChecked:!isChecked
         })
     }
     openAddTaskModal=(task)=>{
@@ -307,6 +284,12 @@ render(){
                  addBtn={this.submitBtn}
                  addModal={addModal}
                  />}
+                 {addModal && <EditModal 
+                 onHide={this.onHide} 
+                 submitBtn={this.submitBtn}
+                 addModal={addModal}
+                 />}
+
             </Container>
         </div>
             

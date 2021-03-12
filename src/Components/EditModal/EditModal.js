@@ -9,8 +9,8 @@ class EditModal extends React.Component{
       this.state={
         title:'',
         description:'',
+        date:  new Date(),
         ...props.editTask, 
-        date:  new Date() 
             
       }    
   }
@@ -21,24 +21,15 @@ class EditModal extends React.Component{
     })
   }
 
-  handle=({type, key})=>{
-  const {onHide, submitBtn}= this.props
-  if(type==='keypress' && key!== 'Enter') return;
-        submitBtn(this.state);
-        onHide()
-}
+
 
 submit=({key, type})=>{
-  const {addBtn,  onHide}=this.props
-  const {title, date, description}=this.state
+  const {submitBtn,  onHide}=this.props
+  const {title,  description}=this.state
   if((type==='keypress' && key!== 'Enter') || 
   ( !title || !description)) return;
-  const formData={
-    title, 
-    description, 
-    date
-  }
-  addBtn(formData);
+  const formData={...this.state}
+  submitBtn(formData);
   onHide()
 } 
 componentDidMount(){
@@ -74,7 +65,7 @@ setDate=(date)=>{
                    type="text" 
                    placeholder="Add title"
                    value={title}
-                   onKeyPress={this.handle}
+                   onKeyPress={this.submit}
                    onChange={this.changeInputValue} 
                    ref={this.input}
                    />
@@ -86,15 +77,14 @@ setDate=(date)=>{
             placeholder='Add description'
             as="textarea" 
             onChange={this.changeInputValue}
-            onKeyPress={this.handle}
+            onKeyPress={this.submit}
             />
-            <DatePicker selected={date} onChange={date => this.setDate(date)} />
+            <DatePicker selected={new Date(date)} onChange={date => this.setDate(date)} />
 
       </Modal.Body>
       <Modal.Footer>
       <Button variant='primary' 
-      onClick={addModal?this.submit: 
-      this.handle}>
+      onClick={this.submit}>
         {addModal? 'Add': 'Save' }
       </Button>
         <Button 
