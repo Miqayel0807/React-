@@ -1,9 +1,9 @@
 h1{
     text-align: center;
+    color: #464665;
 }
 
 .inp{
-    text-align: center;
     font-size: 30px;
     display: flex;
     justify-content: center;

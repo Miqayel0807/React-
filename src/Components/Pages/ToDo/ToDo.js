@@ -240,7 +240,7 @@ render(){
             <Container>
                 <Row className='justify-content-center'>
                     <Col>
-                         <h1>ToDo</h1>
+                         <h1 className={styles.title}>ToDo</h1>
                 <Button 
                 onClick={this.openAddTaskModal}
                 disabled={!!removeTasks.size}>

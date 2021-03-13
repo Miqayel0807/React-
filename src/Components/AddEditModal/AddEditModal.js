@@ -1,6 +1,7 @@
 import React from 'react'
 import {Modal,Button, Form} from 'react-bootstrap'
 import DatePicker from "react-datepicker"
+import PropTypes from 'prop-types'
 
 class AddEditModal extends React.Component{
   constructor(props){
@@ -100,6 +101,14 @@ setDate=(date)=>{
     
   );
   }
+
+  }
+
+  AddEditModal.propTypes={
+    onHide:PropTypes.func.isRequired,
+    submitBtn:PropTypes.func.isRequired,
+    addModal:PropTypes.bool
+    
 
   }
 
