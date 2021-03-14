@@ -3,6 +3,7 @@ import styles from './singletask.module.css'
 import {Button} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash} from '@fortawesome/free-solid-svg-icons'
+import DateFormatter from '../../../Helpers/DataFormatter'
 
 
 class SingleTask extends React.Component{
@@ -22,6 +23,7 @@ class SingleTask extends React.Component{
             this.setState({
                 singleTask:data
             })
+            
         })
        .catch(error=>{
            console.error('Request error', error)
@@ -30,10 +32,24 @@ class SingleTask extends React.Component{
     }
 
     deleteButton=()=>{
+        const {id}=this.props.match.params
+        fetch('http://localhost:3001/task/'+id,{
+            method:'DELETE'
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if(data.error){
+                throw data.error
+            }
             this.setState({
                 singleTask:null
             })
-    }
+            this.props.history.goBack()
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+        }
 
 
     render(){
@@ -49,6 +65,9 @@ class SingleTask extends React.Component{
              <div className={styles.text}>
                 <h2>{singleTask.title}</h2>
                 <p>{singleTask.description}</p>
+                <p>{DateFormatter(singleTask.created_at)}</p>
+                <p>{DateFormatter(singleTask.date)}</p>
+                
 
                 <Button 
 

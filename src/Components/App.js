@@ -21,7 +21,7 @@ function App() {
             <Route path='/' component={ToDo} exact/>
             <Route path='/contact' component={Contact} exact/>
             <Route path='/about' component={AboutUs} exact/>
-            <Route path='/task/:id' component={SingleTask} exact/>
+            <Route path={SingleTask? '/task/:id' : '/'} component={SingleTask} exact/>
             <Route path='/err' component={NotFound} exact/>
             <Redirect to='/err'/>
             </Switch>
